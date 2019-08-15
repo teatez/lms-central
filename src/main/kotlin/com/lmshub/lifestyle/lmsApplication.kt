@@ -120,7 +120,7 @@ fun Application.module() {
             }
         }
         //checkout repondHtmlTemplates for the call
-        route("/") {
+        route("/client") {
             get("/{id}") {
                 call.respondHtml {
                     head("Lifestyles Management")
