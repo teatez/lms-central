@@ -5,22 +5,35 @@ buildscript {
 
 	repositories {
 		mavenCentral()
+		maven { url 'https://kotlin.bintray.com/ktor' }
+		maven { url 'https://plugins.gradle.org/m2/' }
 	}
+
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+		classpath "com.github.jengelman.gradle.plugins:shadow:5.0.0"
 	}
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.2.21'
+    id 'com.github.johnrengelman.shadow' version '2.0.2'
 }
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'application'
+apply plugin: "com.github.johnrengelman.shadow"
+
+mainClassName = "com.lmshub.lifestyle.lmsAppliationKt"
+archivesBaseName = 'lmshub-all'
 
 sourceCompatibility = 1.8
 sourceSets {
-	mainClassName = "com.lmshub.lifestyle.lmsAppliationKt"
-
-
+    main.kotlin.srcDirs += 'src'
+	main.resources.srcDirs = [ 'resources' ]
 }
+
 compileKotlin {
 	kotlinOptions.jvmTarget = "1.8"
 }
@@ -28,15 +41,8 @@ compileTestKotlin {
 	kotlinOptions.jvmTarget = "1.8"
 }
 
-kotlin {
-	experimental {
-		coroutines "enable"
-	}
-}
-
 repositories {
-	jcenter()
-	maven { url 'https://kotlin.bintray.com/ktor' }
+    jcenter()
 }
 
 dependencies {
@@ -62,3 +68,8 @@ dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+shadowJar {
+    baseName = 'lmshub-all'
+    classifier = null
+    version = null
+}
